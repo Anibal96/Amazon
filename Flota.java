@@ -20,30 +20,31 @@ public class Flota
     public void addVehiculo(Vehiculo vehiculo){
         vehiculos.add(vehiculo);
     }
-    
+
     public boolean removeVehiculo(int id){
         boolean eliminado = false;
-        for(int cont = 0; vehiculos.size() > cont || !eliminado ; cont++){
+        for(int cont = 0; vehiculos.size() > cont && !eliminado ; cont++){
             if(vehiculos.get(cont).getId()==id){
                 vehiculos.remove(cont);
+                eliminado = true;
             }
         }
         return eliminado;
     }
-    
-    public String marcaMayoritaria(){
-        String marcaMayoritaria = null;
+
+    public Enum marcaMayoritaria(){
+        Enum marcaMayoritaria = null;
         int ford = 0;
         int opel = 0;
         int citroen = 0;
         int fiat = 0;
         for(Vehiculo vehiculo : vehiculos){
-            if(vehiculo.getMarca = Marca.FORD)
+            if(vehiculo.getMarca() == Marca.FORD)
                 ford++;
-            else if (vehiculo.getMarca = Marca.OPEL)
+            else if (vehiculo.getMarca() == Marca.OPEL)
                 opel++;
-            else if (vehiculo.getMarca = Marca.CITROEN)
-                CITROEN++;
+            else if (vehiculo.getMarca() == Marca.CITROEN)
+                citroen++;
             else
                 fiat++;
         }
@@ -57,38 +58,39 @@ public class Flota
             marcaMayoritaria = Marca.FIAT;
         return marcaMayoritaria;
     }
-    
+
     public boolean cumplenMedidas(){
         boolean cumplenMedidas = true;
         for(Vehiculo vehiculo : vehiculos){
             if(vehiculo instanceof Coche){
-                if(vehiculo.getPlazas() > 5)
+                if(((Coche)vehiculo).getPlazas() > 5)
                     cumplenMedidas = false;
             }
-            else if (vehiculo instanceof FurgonetaPequena)
-                if(vehiculo.getPlazas() > 7)
+            else if (vehiculo instanceof FurgonetaPequena){
+                if(((FurgonetaPequena)vehiculo).getPlazas() > 7)
                     cumplenMedidas = false;
+            }
             else if (vehiculo instanceof Camion){
-                if(vehiculo.esArticulado()){
-                    if(vehiculo.getPeso() > 3000)
+                if(((Camion)vehiculo).esArticulado()){
+                    if(((Camion)vehiculo).getPeso() > 3000)
                         cumplenMedidas = false;
                 }
                 else{
-                    if(vehiculo.getPeso() > 2000)
+                    if(((Camion)vehiculo).getPeso() > 2000)
                         cumplenMedidas = false;
                 }
             }
         }
         return cumplenMedidas;
     }
-    
-    public Integer[] getDatosVehiculo(int id){
-        Vehiculo vehiculo = null;
-        for(int cont = 0; vehiculos.size() > cont || !eliminado ; cont++){
+
+    public int[] getDatosVehiculo(int id){
+        int[]datos = null;
+        for(int cont = 0; vehiculos.size() > cont && datos == null ; cont++){
             if(vehiculos.get(cont).getId()==id){
-                vehiculo = vehiculos.get(cont);
+                datos = vehiculos.get(cont).getDatos();
             }
         }
-        return vehiculo.getDatos();
+        return datos;
     }
 }
